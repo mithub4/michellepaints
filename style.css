@@ -1,0 +1,15 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    display: grid;
+    align-content: center;
+    /* vertical */
+    justify-content: center;
+    /* horizontal */
+    height: 100%;
+}
+
+canvas {
+    display: block;
+}
