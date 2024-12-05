@@ -5,11 +5,11 @@ function setup() {
 }
 
 function draw() {
-    // Draw the background and handle page transitions
+
     if (currentPage == 0) {
-        main();  // Show the main intro page
+        main();
     } else if (currentPage == 1) {
-        board();  // Show the music board page when currentPage is 1
+        board();
     }
 }
 
