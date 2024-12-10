@@ -30,17 +30,19 @@ function main() {
 
     const buttonWidth = windowWidth * 0.1;
     const buttonHeight = windowHeight * (0.03);
-    const buttonFontSize = windowWidth/120;
+    const buttonFontSize = windowWidth / 120;
 
     // reference for `${}` : https://stackoverflow.com/questions/35835362/what-does-dollar-sign-and-curly-braces-mean-in-a-string-in-javascript
     // reference for css: https://www.w3schools.com/cssref/index.php
     if (!playButton) {
         playButton = createButton("PLAY");
+        playButton.position(windowWidth / 2 - (buttonWidth / 2), windowHeight * 3 / 4); // Center the button;
         playButton.style("font-family", "Courier New");
-        playButton.position(windowWidth / 2 - (buttonWidth/2), windowHeight * 3/4); // Center the button;
         playButton.style("border-radius", '40px')
         playButton.style("font-size", `${buttonFontSize}px`);
-        playButton.style("background-color", "orange"); // Set the background color
+        playButton.style("background-color", "#fec5d4"); 
+        playButton.style("color", "#6F4F37")
+        playButton.style("border-color", "#6F4F37")
         playButton.style("width", `${buttonWidth}px`);
         playButton.style("height", `${buttonHeight}px`);
         playButton.mousePressed(switchPage);
