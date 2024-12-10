@@ -19,32 +19,30 @@ function preload() {
 }
 
 function main() {
+    
     background("white");
     textFont('Courier New');
-    fill("#6F4F37");
     textAlign(CENTER);
 
-    // var scale = 0.8;
-    // imageMode(CENTER);
-    // image(img, 0.5*width, 0.5*height, scale*width, scale*img.height*width/img.width); // to fit width
-
     push();
+
     imageMode(CENTER);
-  
+
     // dynamically calculate dimensions based on window size
     let scaleFactorWidth = (windowWidth * 0.9) / myLogo.width;
     let scaleFactorHeight = (windowHeight * 0.7) / myLogo.height;
-  
-    // choose the smaller scaling factor to maintain aspect ratio and fit within the window
-    let scaleFactor = Math.min(scaleFactorWidth, scaleFactorHeight);
-  
-    // Draw the image dynamically resized
-    image(myLogo, windowWidth/2, windowHeight*(0.40), myLogo.width * scaleFactor, myLogo.height * scaleFactor);
-    pop();
 
+    // choose the smaller value to maintain aspect ratio
+    // ref: https://www.w3schools.com/jsref/jsref_min.asp 
+    let scaleFactor = Math.min(scaleFactorWidth, scaleFactorHeight);
+
+    image(myLogo, windowWidth / 2, windowHeight * (0.40), myLogo.width * scaleFactor, myLogo.height * scaleFactor);
+
+    pop();
 
     push();
     textStyle(BOLDITALIC);
+    fill("#6F4F37");
     let fontSize = windowWidth / 50;
     textSize(fontSize);
     text("hit play to start!", windowWidth / 2, windowHeight * (2 / 3));
@@ -52,6 +50,7 @@ function main() {
 
     // the play button only exists on the main page
 
+    push()
     let buttonWidth = windowWidth * 0.1;
     let buttonHeight = windowHeight * (0.04);
     let buttonFontSize = windowWidth / 80;
@@ -60,6 +59,7 @@ function main() {
     // reference for css: https://www.w3schools.com/cssref/index.php
     if (!playButton) {
         playButton = createButton("PLAY");
+        playButton.style("font-weight", "bold");
         playButton.position(windowWidth / 2 - (buttonWidth / 2), windowHeight * 3 / 4); // Center the button;
         playButton.style("font-family", "Courier New");
         playButton.style("border-radius", '40px')
@@ -71,8 +71,10 @@ function main() {
         playButton.style("height", `${buttonHeight}px`);
         playButton.mousePressed(switchPage);
     }
+    pop()
 
     push();
+    fill("#6F4F37");
     fontSize = windowWidth / 80;
     textSize(fontSize);
     text("© codingmiche", windowWidth / 2, windowHeight * (0.90));
@@ -80,12 +82,18 @@ function main() {
 }
 
 function board() {
-    background("white");
-    rect(windowWidth / 16, windowHeight / 8, windowWidth * (2 / 3), windowHeight / 2);
+    background("#f9f9f9");
+
+    push()
+    stroke("#6F4F37")
+    strokeWeight(3);
+    rect(windowWidth / 16, windowHeight / 8, windowWidth * (2 / 3), windowHeight / 2, 20);
+    fill("white");
+    pop()
 }
 
 function switchPage() {
-    // Switch to the next page and remove the Play button
+    // switch to the next page and remove the play button
     currentPage = 1;
 
     if (playButton) {
@@ -96,9 +104,4 @@ function switchPage() {
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
-
-    // Reposition the play button dynamically on resize if it exists
-    if (playButton) {
-        playButton.position(windowWidth / 2, windowHeight * 2 / 3 + 20);
-    }
 }
