@@ -32,14 +32,14 @@ function main() {
     imageMode(CENTER);
   
     // dynamically calculate dimensions based on window size
-    let scaleFactorWidth = windowWidth * 0.9 / myLogo.width;
-    let scaleFactorHeight = windowHeight * 0.7 / myLogo.height;
+    let scaleFactorWidth = (windowWidth * 0.9) / myLogo.width;
+    let scaleFactorHeight = (windowHeight * 0.7) / myLogo.height;
   
     // choose the smaller scaling factor to maintain aspect ratio and fit within the window
     let scaleFactor = Math.min(scaleFactorWidth, scaleFactorHeight);
   
     // Draw the image dynamically resized
-    image(myLogo, windowWidth/2, windowHeight*(0.5)-125, myLogo.width * scaleFactor, myLogo.height * scaleFactor);
+    image(myLogo, windowWidth/2, windowHeight*(0.40), myLogo.width * scaleFactor, myLogo.height * scaleFactor);
     pop();
 
 
@@ -53,8 +53,8 @@ function main() {
     // the play button only exists on the main page
 
     let buttonWidth = windowWidth * 0.1;
-    let buttonHeight = windowHeight * (0.03);
-    let buttonFontSize = windowWidth / 120;
+    let buttonHeight = windowHeight * (0.04);
+    let buttonFontSize = windowWidth / 80;
 
     // reference for `${}` : https://stackoverflow.com/questions/35835362/what-does-dollar-sign-and-curly-braces-mean-in-a-string-in-javascript
     // reference for css: https://www.w3schools.com/cssref/index.php
