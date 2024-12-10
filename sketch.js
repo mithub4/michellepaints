@@ -8,7 +8,7 @@ function setup() {
 
 function draw() {
     if (currentPage == 0) {
-        main();
+       main();
     } else if (currentPage == 1) {
         board();
     }
