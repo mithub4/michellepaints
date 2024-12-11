@@ -13,6 +13,10 @@ function setup() {
 
 }
 
+function preload() {
+    myLogo = loadImage("mleepaints.jpeg")
+}
+
 function draw() {
     background(220);
 
@@ -24,6 +28,26 @@ function draw() {
 }
 
 function main() {
+
+    background("white");
+    textFont('Courier New');
+    textAlign(CENTER);
+
+    imageMode(CENTER);
+
+    // dynamically calculate dimensions based on window size
+    let scaleFactorWidth = (windowWidth * 0.9) / myLogo.width;
+    let scaleFactorHeight = (windowHeight * 0.7) / myLogo.height;
+
+    // choose the smaller value to maintain aspect ratio
+    // ref: https://www.w3schools.com/jsref/jsref_min.asp 
+    let scaleFactor = Math.min(scaleFactorWidth, scaleFactorHeight);
+
+    image(myLogo, windowWidth / 2, windowHeight * (0.40), myLogo.width * scaleFactor, myLogo.height * scaleFactor);
+
+    pop();
+
+
 
     drawPlayButton();
 
