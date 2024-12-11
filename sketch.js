@@ -1,84 +1,46 @@
-let currentPage = 0; // page variable
+let gui;
 let playButton;
-let myLogo;
+let currentPage = 0; // page variable
 
 function setup() {
-    createCanvas(windowWidth, windowHeight);
+    createCanvas(windowWidth, windowHeight)
+
+    gui = createGui();
+    let buttonWidth = windowWidth * 0.1;
+    let buttonHeight = windowHeight * (0.04);
+    //  playButton.position(windowWidth / 2 - (buttonWidth / 2), windowHeight * 3 / 4); // Center the button;
+    playButton = createButton("Button", windowWidth / 2 - (buttonWidth / 2), windowHeight * 3 / 4, buttonWidth, buttonHeight);
+
 }
 
 function draw() {
+    background(220);
+
     if (currentPage == 0) {
-       main();
+        main();
     } else if (currentPage == 1) {
         board();
     }
 }
 
-function preload() {
-    myLogo = loadImage("mleepaints.jpeg")
+function main() {
+
+    drawPlayButton();
+
 }
 
-function main() {
-    
-    background("white");
-    textFont('Courier New');
-    textAlign(CENTER);
+function drawPlayButton() {
+    drawGui();
 
-    push();
-
-    imageMode(CENTER);
-
-    // dynamically calculate dimensions based on window size
-    let scaleFactorWidth = (windowWidth * 0.9) / myLogo.width;
-    let scaleFactorHeight = (windowHeight * 0.7) / myLogo.height;
-
-    // choose the smaller value to maintain aspect ratio
-    // ref: https://www.w3schools.com/jsref/jsref_min.asp 
-    let scaleFactor = Math.min(scaleFactorWidth, scaleFactorHeight);
-
-    image(myLogo, windowWidth / 2, windowHeight * (0.40), myLogo.width * scaleFactor, myLogo.height * scaleFactor);
-
-    pop();
-
-    push();
-    textStyle(BOLDITALIC);
-    fill("#6F4F37");
-    let fontSize = windowWidth / 50;
-    textSize(fontSize);
-    text("hit play to start!", windowWidth / 2, windowHeight * (2 / 3));
-    pop();
-
-    // the play button only exists on the main page
-
-    push()
-    let buttonWidth = windowWidth * 0.1;
-    let buttonHeight = windowHeight * (0.04);
-    let buttonFontSize = windowWidth / 80;
-
-    // reference for `${}` : https://stackoverflow.com/questions/35835362/what-does-dollar-sign-and-curly-braces-mean-in-a-string-in-javascript
-    // reference for css: https://www.w3schools.com/cssref/index.php
-    if (!playButton) {
-        playButton = createButton("PLAY");
-        playButton.style("font-weight", "bold");
-        playButton.position(windowWidth / 2 - (buttonWidth / 2), windowHeight * 3 / 4); // Center the button;
-        playButton.style("font-family", "Courier New");
-        playButton.style("border-radius", '40px')
-        playButton.style("font-size", `${buttonFontSize}px`);
-        playButton.style("background-color", "#fec5d4");
-        playButton.style("color", "#6F4F37")
-        playButton.style("border-color", "#6F4F37")
-        playButton.style("width", `${buttonWidth}px`);
-        playButton.style("height", `${buttonHeight}px`);
-        playButton.mousePressed(switchPage);
+    if (playButton.isPressed) {
+        // Print a message when Button is pressed.
+        print(playButton.label + " pressed.");
     }
-    pop()
 
-    push();
-    fill("#6F4F37");
-    fontSize = windowWidth / 80;
-    textSize(fontSize);
-    text("© codingmiche", windowWidth / 2, windowHeight * (0.90));
-    pop();
+    if (playButton.isHeld) {
+        // Draw an ellipse when Button is held.
+        switchPage();
+    }
 }
 
 function board() {
@@ -96,12 +58,18 @@ function switchPage() {
     // switch to the next page and remove the play button
     currentPage = 1;
 
-    if (playButton) {
-        playButton.remove(); // removes the play button when transitioning to board
-    }
+    // if (playButton) {
+    //     playButton.remove(); // removes the play button when transitioning to board
+    // }
 
 }
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
+}
+
+/// Add these lines below sketch to prevent scrolling on mobile
+function touchMoved() {
+    // do some stuff
+    return false;
 }
