@@ -1,15 +1,17 @@
 let gui;
 let playButton;
+let colorButton;
 let currentPage = 0; // page variable
 
 function setup() {
     createCanvas(windowWidth, windowHeight)
 
     gui = createGui();
+
     let buttonWidth = windowWidth * 0.1;
     let buttonHeight = windowHeight * (0.04);
-    //  playButton.position(windowWidth / 2 - (buttonWidth / 2), windowHeight * 3 / 4); // Center the button;
-    playButton = createButton("Button", windowWidth / 2 - (buttonWidth / 2), windowHeight * 3 / 4, buttonWidth, buttonHeight);
+    // colorButton = createCheckbox("Checkbox", 0, 100, 100, 100);
+    playButton = createButton("PLAY", windowWidth / 2 - (buttonWidth / 2), windowHeight * 3 / 4, buttonWidth, buttonHeight);
 
 }
 
@@ -19,7 +21,7 @@ function preload() {
 
 function draw() {
     background(220);
-
+    
     if (currentPage == 0) {
         main();
     } else if (currentPage == 1) {
@@ -33,6 +35,8 @@ function main() {
     textFont('Courier New');
     textAlign(CENTER);
 
+    push();
+
     imageMode(CENTER);
 
     // dynamically calculate dimensions based on window size
@@ -42,29 +46,64 @@ function main() {
     // choose the smaller value to maintain aspect ratio
     // ref: https://www.w3schools.com/jsref/jsref_min.asp 
     let scaleFactor = Math.min(scaleFactorWidth, scaleFactorHeight);
+    let buttonFontSize = windowWidth / 80;
 
     image(myLogo, windowWidth / 2, windowHeight * (0.40), myLogo.width * scaleFactor, myLogo.height * scaleFactor);
+    
+    playButton.setStyle({
+
+        // default colors
+
+        fillBg: color("#fec5d4"),
+        font: "Courier New",
+        rounding: 40,
+        textSize: buttonFontSize,
+        fillLabel: color("#6F4F37"),
+        strokeBg: color("#6F4F37"),
+
+        // colors when hover button
+        fillBgHover: color("#eaa0b6"),
+        strokeBgHover: color("#6F4F37"),
+        fillLabelHover: color("#6F4F37"),
+
+        // colors when active button
+        fillBgActive: color("#FFDBE1"),
+        fillLabelActive: color("#6F4F37"),
+        strokeBgActive: color("#6F4F37")
+
+    })
+    pop();
+
+    push();
+
+    textStyle(BOLDITALIC);
+    fill("#6F4F37");
+    let fontSize = windowWidth / 50;
+    textSize(fontSize);
+    text("hit play to start!", windowWidth / 2, windowHeight * (2 / 3));
 
     pop();
 
-
-
     drawPlayButton();
+
+    push();
+    fill("#6F4F37");
+    fontSize = windowWidth / 80;
+    textSize(fontSize);
+    text("© codingmiche", windowWidth / 2, windowHeight * (0.90));
+    pop();
 
 }
 
 function drawPlayButton() {
+
     drawGui();
 
     if (playButton.isPressed) {
         // Print a message when Button is pressed.
-        print(playButton.label + " pressed.");
-    }
-
-    if (playButton.isHeld) {
-        // Draw an ellipse when Button is held.
         switchPage();
     }
+
 }
 
 function board() {
@@ -75,16 +114,19 @@ function board() {
     strokeWeight(3);
     rect(windowWidth / 16, windowHeight / 8, windowWidth * (2 / 3), windowHeight / 2, 20);
     fill("white");
-    pop()
+    pop();
+
+    colorOptions();
+
+}
+
+function colorOptions() {
+    drawGui();
 }
 
 function switchPage() {
     // switch to the next page and remove the play button
     currentPage = 1;
-
-    // if (playButton) {
-    //     playButton.remove(); // removes the play button when transitioning to board
-    // }
 
 }
 
