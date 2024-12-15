@@ -2,9 +2,51 @@ let canvasBg;
 let ambiance;
 let music;
 let gui;
-let blackButton, whiteButton, darkGrayButton, lightGrayButton, darkBrownButton, lightBrownButton;
-let redButton, pinkButton, orangeButton, tangerineButton, yellowButton, lightYellowButton, darkGreenButton, lightGreenButton;
-let skyBlueButton, lightBlueButton, blueButton, ashyBlueButton, purpleButton, lightPurpleButton;
+let colorNames = [
+  'blackButton',
+  'whiteButton',
+  'darkGrayButton',
+  'lightGrayButton',
+  'darkBrownButton',
+  'lightBrownButton',
+  'redButton',
+  'pinkButton',
+  'orangeButton',
+  'dandelionButton',
+  'yellowButton',
+  'lightYellowButton',
+  'darkGreenButton',
+  'lightGreenButton',
+  'skyBlueButton',
+  'lightBlueButton',
+  'blueButton',
+  'ashyBlueButton',
+  'purpleButton',
+  'lightPurpleButton',
+];
+
+let colorValues = [
+  "#000000",
+  "#FFFFFF",
+  "#7f7f7f", // dark gray
+  "#c4c4c4", // light gray
+  "#880016", // dark brown
+  "#b97b57", // light brown
+  "#ed1b24", // red
+  "#feb0cd", // pink 
+  "#ff7f29", // orange
+  "#fdca0c", // dandelion
+  "#f8ee15", // yellow
+  "#ede2af", // light yellow
+  "#24b24f", // dark green
+  "#b2e71c", // light green
+  "#01a3ea", // sky blue
+  "#9bdaee", // light blue
+  "#4347cd", // blue
+  "#7392be", // ashy blue
+  "#a549a3", // purple
+  "#c8bee9" // light purple
+]
 
 function setup() {
 
@@ -29,9 +71,6 @@ function preload() {
 }
 
 function draw() {
-
-  let perfectSq = windowWidth*0.032
-
   background(canvasBg);
   // canvas
   // image background: https://editor.p5js.org/p5/sketches/Image:_Background_Image 
@@ -45,37 +84,44 @@ function draw() {
 }
 
 function colorOptions() {
+  
 
-  let perfectSq = windowWidth*0.032
+  // Loop to create a 4-column x 5-row grid of checkboxes
+  let perfectSq = windowWidth * 0.032;
 
-  blackButton = createCheckbox("Checkbox", windowWidth * 0.55, windowHeight * 0.08, perfectSq, perfectSq);
-  blackButton.setStyle({
+  // Loop to create a 4-column x 5-row grid of checkboxes using nested loops
+  let index = 0; // Index to track the colorNames array
 
-    fillBg: color("black"),
-    strokeBg: color("white")
+  for (let i = 0; i < 5; i++) { // Loop over 5 rows
+    for (let j = 0; j < 4; j++) { // Loop over 4 columns
 
+      let xPos = windowWidth * (0.55 + j * 0.05); // Horizontal position for 4 columns
+      let yPos = windowHeight * (0.15 + i * 0.1); // Vertical position for 5 rows
+      
+      rect(xPos, yPos, perfectSq, perfectSq);
+
+      let checkbox = createCheckbox(
+        "Checkbox",
+        xPos,
+        yPos,
+        perfectSq,
+        perfectSq
+      );
+
+      if (index < colorValues.length) {
+        checkbox.setStyle({
+          fillBg: color(colorValues[index]), // Assign color from colorValues
+          strokeBg: color("white"),
+          fillBgHover: color(colorValues[index]),
+          fillBgActive: color(colorValues[index]),
+          fillCheck: color("#364034"),
+          fillCheckHover: color("#364034"),
+          fillCheckActive: color("#364034")
+        });
+
+        index++;
+
+      }
+    }
   }
-  )
-
-  whiteButton = createCheckbox("Checkbox", windowWidth * 0.59, windowHeight * 0.08, perfectSq, perfectSq);
-  whiteButton.setStyle({
-    fillBg: color("white"),
-    strokeBg: color("gray")
-  }
-  )
-
-  darkGrayButton = createCheckbox("Checkbox", windowWidth * 0.55, windowHeight * 0.16, perfectSq, perfectSq);
-  darkGrayButton.setStyle({
-    fillBg: color("#7f7f7f"),
-    strokeBg: color("white")
-  }
-  )
-
-  lightGrayButton = createCheckbox("Checkbox", windowWidth * 0.59, windowHeight * 0.16, perfectSq, perfectSq);
-  lightGrayButton.setStyle({
-    fillBg: color("#c4c4c4"),
-    strokeBg: color("white")
-  }
-  )
-
 }
