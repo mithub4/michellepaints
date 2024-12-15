@@ -48,10 +48,25 @@ let colorValues = [
   "#c8bee9" // light purple
 ]
 
+let brushColor;
+
 function setup() {
 
   createCanvas(windowWidth * 0.999, windowHeight);
-  canvasBg = loadImage('finalbg.png');
+  canvasBg = loadImage('finalbg.png', img => {
+    image(img, 0, 0, width, height);
+  });
+
+  push();
+  stroke("white");
+  fill("white");
+  rect(windowWidth * 0.125, windowHeight * 0.155, windowWidth * 0.337, windowHeight * 0.460, 10)
+  pop();
+
+  // canvas
+  // image background: https://editor.p5js.org/p5/sketches/Image:_Background_Image 
+ // background(canvasBg);
+
   ambiance.loop();
   music.loop();
   gui = createGui();
@@ -71,20 +86,27 @@ function preload() {
 }
 
 function draw() {
-  background(canvasBg);
-  // canvas
-  // image background: https://editor.p5js.org/p5/sketches/Image:_Background_Image 
-  push();
-  stroke("white");
-  rect(windowWidth * 0.125, windowHeight * 0.155, windowWidth * 0.337, windowHeight * 0.460, 10)
-  pop();
 
   drawGui();
+
+  if (
+    mouseIsPressed &&
+    mouseX >= windowWidth * 0.125 &&
+    mouseX <= windowWidth * 0.125 + windowWidth * 0.335 &&
+    mouseY >= windowHeight * 0.155 &&
+    mouseY <= windowHeight * 0.155 + windowHeight * 0.455
+  ) {
+
+    // if image is pressed: certainStroke();
+
+    pencilStroke();
+  }
+
 
 }
 
 function colorOptions() {
-  
+
 
   // Loop to create a 4-column x 5-row grid of checkboxes
   let perfectSq = windowWidth * 0.032;
@@ -97,7 +119,7 @@ function colorOptions() {
 
       let xPos = windowWidth * (0.55 + j * 0.05); // Horizontal position for 4 columns
       let yPos = windowHeight * (0.15 + i * 0.1); // Vertical position for 5 rows
-      
+
       rect(xPos, yPos, perfectSq, perfectSq);
 
       let checkbox = createCheckbox(
@@ -122,6 +144,24 @@ function colorOptions() {
         index++;
 
       }
+
     }
   }
 }
+
+function pencilStroke() {
+  line(mouseX, mouseY, pmouseX, pmouseY);
+}
+
+function penStroke() {
+
+}
+
+function paintStroke() {
+
+}
+
+function eraser() {
+
+}
+
