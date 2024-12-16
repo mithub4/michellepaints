@@ -100,6 +100,7 @@ function draw() {
     // if image is pressed: certainStroke();
 
     pencilStroke();
+
   }
 
 
@@ -108,14 +109,14 @@ function draw() {
 function colorOptions() {
 
 
-  // Loop to create a 4-column x 5-row grid of checkboxes
   let perfectSq = windowWidth * 0.032;
 
-  // Loop to create a 4-column x 5-row grid of checkboxes using nested loops
-  let index = 0; // Index to track the colorNames array
+  let index = 0; 
 
-  for (let i = 0; i < 5; i++) { // Loop over 5 rows
-    for (let j = 0; j < 4; j++) { // Loop over 4 columns
+  for (let i = 0; i < 5; i++) {
+    for (let j = 0; j < 4; j++) {
+
+      // set a global variable = false (2 dim array)
 
       let xPos = windowWidth * (0.55 + j * 0.05); // Horizontal position for 4 columns
       let yPos = windowHeight * (0.15 + i * 0.1); // Vertical position for 5 rows
@@ -129,6 +130,9 @@ function colorOptions() {
         perfectSq,
         perfectSq
       );
+
+      // check if mouseIsPressed in a certain image to set global variable to true --> render the color of the brush
+      // two global variables that holds true or false, and one that holds the color currently selected
 
       if (index < colorValues.length) {
         checkbox.setStyle({
