@@ -124,17 +124,17 @@ function setup() {
 function draw() {
 
   drawGui();
-  
+
   // sets the brushSize equal to the value of the thickness slider (10 - 100)
   brushSize = thickness.val;
 
   // pencilStroke();
   // pencil.mousePressed(pencilStroke);
 
-  // highlightStroke();
+  highlightStroke();
   //highlighter.mousePressed(highlightStroke);
 
-  paintStroke();
+  // paintStroke();
   //paintbrush.mousePressed(paintStroke);
 
   // eraser();
@@ -194,7 +194,6 @@ function colorOptions() {
 }
 
 // eraser brush
-
 function eraser() {
 
   // if statement checks if mouse is being pressed within the white canvas
@@ -213,7 +212,6 @@ function eraser() {
 }
 
 // pencil stroke
-
 function pencilStroke() {
 
   if (mouseIsPressed &&
@@ -237,7 +235,6 @@ function pencilStroke() {
 // ceil() docu: https://p5js.org/reference/p5/ceil/
 
 // hightlight stroke
-
 function highlightStroke() {
 
 
@@ -296,7 +293,6 @@ function highlightStroke() {
 // followed this tutorial: https://www.gorillasun.de/blog/simulating-brush-strokes-with-hookes-law-in-p5js-and-processing/
 
 // paintbrush stroke
-
 function paintStroke() {
 
   if (mouseIsPressed &&
@@ -310,49 +306,49 @@ function paintStroke() {
     if (mouseIsPressed) {
       if (!f) {
         f = true;
-        x = mouseX; // Initialize the starting point
+        x = mouseX; // initialize the starting points
         y = mouseY;
       }
 
-      // Simulate velocity with spring physics and friction
+      // simulate velocity with spring physics and friction
       vx += (pmouseX - x) * spring;
       vy += (pmouseY - y) * spring;
       vx *= friction;
       vy *= friction;
 
-      // Calculate velocity magnitude for brush dynamics
+      // calculate velocity magnitude for brush dynamics
       v += sqrt(vx * vx + vy * vy) - v;
       v *= 0.6;
 
       let oldR = r;
-      r = (brushSize) - v; // Update dynamic radius based on velocity changes
+      r = (brushSize) - v; // update dynamic radius based on velocity changes
 
       for (let i = 0; i < splitNum; ++i) {
         let oldX = x;
         let oldY = y;
 
-        // Interpolate motion to smooth out the brush effect
+        // interpolate motion to smooth out the brush effect
         x += vx / splitNum;
         y += vy / splitNum;
 
-        // Smoothly transition radius over iterations
+        // smoothly transition radius over iterations
         oldR += (r - oldR) / splitNum;
         if (oldR < 1) {
           oldR = 1; // Clamp minimum radius value
         }
 
-        // Set stroke weight for splitting brush effect
+        // wet stroke weight for splitting brush effect
         strokeWeight(oldR + diff);
         line(x, y, oldX, oldY);
 
-        // Additional offsets for randomized brush effects
+        // additional offsets for randomized brush effects
         strokeWeight(oldR);
         line(x + diff * 1.5, y + diff * 2, oldX + diff * 2, oldY + diff * 2);
         line(x - diff, y - diff, oldX - diff, oldY - diff);
         stroke(brushColor)
       }
     } else if (f) {
-      // Reset velocity and flags on mouse release
+      // reset velocity and flags on mouse release
       vx = 0;
       vy = 0;
       v = 0;
