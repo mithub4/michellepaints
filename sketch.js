@@ -1,9 +1,11 @@
 // http://127.0.0.1:5500/index.html 
+// touchgui library: https://github.com/L05/p5.touchgui?tab=readme-ov-file 
 
 let canvasBg;
-let ambiance; 
+let ambiance;
 let music;
 let gui;
+let isDrawing = false;
 
 // array for all color value names
 let colorValues = [
@@ -44,9 +46,9 @@ let x = 0; // current x value
 let y = 0; // current y value
 
 let brushColor = "pink"; // global brush color
-let brushSize = 50; // Brush size
-
-let pencil, highlighter, paintbrush, eraserBrush;
+let pencil, highlighter, paintbrush, eraserBrush; // variables for utensil images
+let thickness; // variable for thickness slider
+let brushSize; // brush size
 
 
 function preload() {
@@ -75,39 +77,64 @@ function setup() {
   ambiance.loop();
   music.loop();
 
+  // ref for turning images into buttons: https://editor.p5js.org/emmajaneculhane/sketches/WKwR76epN 
+
   // pencil
   pencil = createImg('pencil.png', 'pencil');
-  pencil.position(windowWidth*(0.07+0.04), windowHeight*0.67);
-  pencil.size(windowWidth*0.10, windowHeight*0.24);
+  pencil.position(windowWidth * (0.07 + 0.04), windowHeight * 0.67);
+  pencil.size(windowWidth * 0.10, windowHeight * 0.24);
 
   // highlighter
   highlighter = createImg('highlighter.png', 'highlighter');
-  highlighter.position(windowWidth*(0.15+0.04), windowHeight*0.67);
-  highlighter.size(windowWidth*0.09, windowHeight*0.25);
+  highlighter.position(windowWidth * (0.15 + 0.04), windowHeight * 0.67);
+  highlighter.size(windowWidth * 0.09, windowHeight * 0.25);
 
   // paintbrush
   paintbrush = createImg('paintbrush.png', 'paintbrush');
-  paintbrush.position(windowWidth*(0.23+0.04), windowHeight*0.67);
-  paintbrush.size(windowWidth*0.09, windowHeight*0.25);
+  paintbrush.position(windowWidth * (0.23 + 0.04), windowHeight * 0.67);
+  paintbrush.size(windowWidth * 0.09, windowHeight * 0.25);
 
   // eraser
-  eraserBrush = createImg('eraser.png', 'eraser'); 
-  eraserBrush.position(windowWidth*(0.31+0.04), windowHeight*0.71);
-  eraserBrush.size(windowWidth*0.10, windowHeight*0.20);
+  eraserBrush = createImg('eraser.png', 'eraser');
+  eraserBrush.position(windowWidth * (0.31 + 0.04), windowHeight * 0.71);
+  eraserBrush.size(windowWidth * 0.10, windowHeight * 0.20);
+
+  // reference for slider: https://github.com/L05/p5.touchgui/blob/master/docs/GuiSlider.md
+  thickness = createSlider("Slider", windowWidth * 0.55, windowHeight * 0.75, windowWidth * 0.19, windowHeight * 0.08, 10, 100);
+  thickness.setStyle({
+    fillBg: color("white"),
+    strokeBg: color("#303830"),
+    fillHandle: color("#dbe8a2"),
+    fillTrack: color("#93b659"),
+    rounding: 10,
+    trackWidth: 1,
+    strokeBgHover: color("#303830"),
+    fillBgHover: color("#f2efeb"),
+    fillHandleHover: color("#dbe8a2"),
+    fillTrackHover: color("#acd665"),
+    fillTrackActive: color("#e4eec3"),
+    fillHandleActive: color("#dbe8a2"),
+    fillBgActive: color("#e6dfd9"),
+    strokeBgActive: color("#303830"),
+  });
+
 
 }
 
 function draw() {
 
   drawGui();
+  
+  // sets the brushSize equal to the value of the thickness slider (10 - 100)
+  brushSize = thickness.val;
 
   // pencilStroke();
   // pencil.mousePressed(pencilStroke);
 
-  highlightStroke();
+  // highlightStroke();
   //highlighter.mousePressed(highlightStroke);
 
-  // paintStroke();
+  paintStroke();
   //paintbrush.mousePressed(paintStroke);
 
   // eraser();
@@ -115,6 +142,7 @@ function draw() {
 
 }
 
+// color options displayed in a 5 x 4 array
 function colorOptions() {
 
 
@@ -165,10 +193,12 @@ function colorOptions() {
   }
 }
 
+// eraser brush
+
 function eraser() {
 
   // if statement checks if mouse is being pressed within the white canvas
-  
+
   if (mouseIsPressed &&
     mouseX >= windowWidth * 0.125 &&
     mouseX <= windowWidth * 0.125 + windowWidth * 0.335 &&
@@ -181,6 +211,8 @@ function eraser() {
   }
 
 }
+
+// pencil stroke
 
 function pencilStroke() {
 
@@ -203,6 +235,8 @@ function pencilStroke() {
 // dist() docu: https://p5js.org/reference/p5/dist/
 // lerp() docu: https://p5js.org/reference/p5/lerp/
 // ceil() docu: https://p5js.org/reference/p5/ceil/
+
+// hightlight stroke
 
 function highlightStroke() {
 
@@ -238,11 +272,11 @@ function highlightStroke() {
     for (let i = 0; i < steps; i++) {
 
       let transition = i / steps; // calculate the transition factor for smooth movement over each step
-      
+
       let interlopX = lerp(lastX, mouseX, transition); // interpolate the lastX to mouseX based on the transition factor.
       let interlopY = lerp(lastY, mouseY, transition); // interpolate the lastY to mouseY based on the transition factor.
-    
-      rect(interlopX, interlopY, brushSize * 0.75, brushSize * 0.25); // draw a rectangle as the highlighter shape
+
+      rect(interlopX, interlopY, (brushSize * 0.75), (brushSize * 0.25)); // draw a rectangle as the highlighter shape
     }
 
     pop();
@@ -250,7 +284,7 @@ function highlightStroke() {
     // updates the brush tracking position with previous mouse X and Y 
     lastX = pmouseX;
     lastY = pmouseY;
-    
+
   } else {
     // when mouse is released
     isDrawing = false;
@@ -260,6 +294,8 @@ function highlightStroke() {
 
 
 // followed this tutorial: https://www.gorillasun.de/blog/simulating-brush-strokes-with-hookes-law-in-p5js-and-processing/
+
+// paintbrush stroke
 
 function paintStroke() {
 
@@ -289,7 +325,7 @@ function paintStroke() {
       v *= 0.6;
 
       let oldR = r;
-      r = brushSize - v; // Update dynamic radius based on velocity changes
+      r = (brushSize) - v; // Update dynamic radius based on velocity changes
 
       for (let i = 0; i < splitNum; ++i) {
         let oldX = x;
